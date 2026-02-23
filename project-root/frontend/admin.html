@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Queue Management</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button id="themeToggle">
+            <i class="fas fa-moon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>QueueFlow Admin</span>
+        </div>
+        
+        <div class="user-profile admin">
+            <div class="avatar">
+                <i class="fas fa-user-cog"></i>
+            </div>
+            <div class="user-info">
+                <h3 id="adminName">Admin User</h3>
+                <p>Administrator Account</p>
+            </div>
+            <div class="status-indicator admin"></div>
+        </div>
+
+        <div class="nav-menu">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-list"></i>
+                <span>All Queues</span>
+                <span class="badge">24</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+                <span class="badge">142</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#" class="nav-item logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-list-ol"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Active Queues</h3>
+                    <p class="stat-number">8</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Users Waiting</h3>
+                    <p class="stat-number">42</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Served Today</h3>
+                    <p class="stat-number">156</p>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>Queue Management</h1>
+                <p>Create and manage queues efficiently</p>
+            </div>
+            <div class="header-right">
+                <div class="quick-actions">
+                    <button class="btn-notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">5</span>
+                    </button>
+                    <button class="btn-export">
+                        <i class="fas fa-file-export"></i>
+                        Export Data
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Create Queue Section -->
+        <section class="create-queue-section">
+            <div class="section-header">
+                <h2>Create New Queue</h2>
+                <p>Set up a new queue for users to join</p>
+            </div>
+            <button class="btn-create-large" id="createQueueBtn">
+                <div class="btn-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <div class="btn-content">
+                    <h3>Create New Queue</h3>
+                    <p>Click to set up a new queue with name and description</p>
+                </div>
+                <div class="btn-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </button>
+        </section>
+
+        <!-- Your Queues Section -->
+        <section class="queues-section">
+            <div class="section-header">
+                <div>
+                    <h2>Your Queues</h2>
+                    <p>Manage queues created by you</p>
+                </div>
+                <div class="queue-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="paused">Paused</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                </div>
+            </div>
+
+            <div class="queues-list" id="queuesList">
+                <!-- Queue items will be dynamically added here -->
+                <!-- Sample data for demo -->
+            </div>
+
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">
+                    <i class="fas fa-list-alt"></i>
+                </div>
+                <h3>No Queues Created Yet</h3>
+                <p>Create your first queue to get started</p>
+                <button class="btn-primary" id="createFirstQueue">
+                    <i class="fas fa-plus"></i>
+                    Create Your First Queue
+                </button>
+            </div>
+        </section>
+
+        <!-- Queue Statistics -->
+        <section class="stats-section">
+            <div class="section-header">
+                <h2>Queue Statistics</h2>
+                <span class="time-range">Last 7 days</span>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-large">
+                    <div class="stat-header">
+                        <h3>Average Wait Time</h3>
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value">24 min</div>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        12% better than last week
+                    </div>
+                </div>
+                <div class="stat-large">
+                    <div class="stat-header">
+                        <h3>User Satisfaction</h3>
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div class="stat-value">94%</div>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        8% better than last week
+                    </div>
+                </div>
+                <div class="stat-large">
+                    <div class="stat-header">
+                        <h3>Queue Completion Rate</h3>
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-value">88%</div>
+                    <div class="stat-trend down">
+                        <i class="fas fa-arrow-down"></i>
+                        3% lower than last week
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Create Queue Modal -->
+    <div class="modal-overlay" id="createModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Queue</h2>
+                <button class="modal-close" id="closeCreateModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="createQueueForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="queueName">
+                            Queue Name
+                            <span class="char-count" id="nameCount">0/50</span>
+                        </label>
+                        <input type="text" id="queueName" placeholder="e.g., Doctor Consultation, Bank Service" required maxlength="50">
+                        <small>Give your queue a clear, descriptive name</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="queueDescription">
+                            Description
+                            <span class="char-count" id="descCount">0/25</span>
+                        </label>
+                        <textarea id="queueDescription" placeholder="Brief description of what this queue is for..." rows="3" maxlength="25" required></textarea>
+                        <small>Maximum 25 characters. Be concise and clear.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="queueCategory">Category</label>
+                        <select id="queueCategory">
+                            <option value="health">Health & Medical</option>
+                            <option value="education">Education</option>
+                            <option value="banking">Banking & Finance</option>
+                            <option value="government">Government Services</option>
+                            <option value="retail">Retail & Shopping</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="queueCapacity">Maximum Capacity (Optional)</label>
+                        <div class="range-input">
+                            <input type="range" id="queueCapacity" min="10" max="200" value="50">
+                            <span class="range-value" id="capacityValue">50 users</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelCreate">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Create Queue
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Queue Details Modal -->
+    <div class="modal-overlay" id="queueDetailsModal">
+        <div class="modal-content queue-details-modal">
+            <div class="modal-header">
+                <h2>Queue Details</h2>
+                <button class="modal-close" id="closeDetailsModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="queue-header">
+                    <div class="queue-icon-large">
+                        <i class="fas fa-list-alt"></i>
+                    </div>
+                    <div class="queue-title">
+                        <h3 id="detailQueueName">Queue Name</h3>
+                        <p id="detailQueueDescription">Queue description will appear here</p>
+                        <div class="queue-meta">
+                            <span class="queue-id" id="detailQueueId">ID: Q-001</span>
+                            <span class="queue-status active" id="detailQueueStatus">Active</span>
+                            <span class="queue-date" id="detailQueueDate">Created: Today</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="queue-stats">
+                    <div class="stat-box">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Users</span>
+                            <span class="stat-number" id="totalUsers">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Currently Waiting</span>
+                            <span class="stat-number" id="waitingUsers">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Served</span>
+                            <span class="stat-number" id="servedUsers">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Avg. Wait Time</span>
+                            <span class="stat-number" id="avgWaitTime">0 min</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users List -->
+                <div class="users-section">
+                    <div class="section-header">
+                        <h3>Users in Queue</h3>
+                        <span class="user-count" id="userCount">0 users</span>
+                    </div>
+                    
+                    <div class="users-list" id="usersList">
+                        <!-- User items will be dynamically added here -->
+                    </div>
+
+                    <div class="empty-users" id="emptyUsers">
+                        <i class="fas fa-users"></i>
+                        <p>No users in this queue yet</p>
+                    </div>
+                </div>
+
+                <!-- Queue Actions -->
+                <div class="queue-actions-section">
+                    <div class="action-buttons">
+                        <button class="btn-action primary" id="callNextBtn">
+                            <i class="fas fa-bullhorn"></i>
+                            Call Next User
+                        </button>
+                        <button class="btn-action secondary" id="pauseQueueBtn">
+                            <i class="fas fa-pause"></i>
+                            Pause Queue
+                        </button>
+                        <button class="btn-action danger" id="deleteQueueBtn">
+                            <i class="fas fa-trash"></i>
+                            Delete Queue
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h2>Delete Queue</h2>
+                <button class="modal-close" id="closeDeleteModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Are you sure?</h3>
+                <p id="deleteMessage">This action cannot be undone. All users in the queue will be notified and removed.</p>
+                
+                <div class="delete-confirm">
+                    <label class="confirm-checkbox">
+                        <input type="checkbox" id="confirmDelete">
+                        <span>I understand this action is permanent</span>
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelDelete">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn-danger" id="confirmDeleteBtn" disabled>
+                        <i class="fas fa-trash"></i>
+                        Delete Queue
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="toast" id="successToast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <div class="toast-message">
+                <h4>Success!</h4>
+                <p id="toastMessage">Queue created successfully!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
