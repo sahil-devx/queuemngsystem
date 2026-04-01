@@ -1,15 +1,20 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Queue System Backend API",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
+    "build": "echo 'No build step required for Node.js'",
     "test": "echo \"No tests configured\" && exit 0"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["queue", "management", "api", "nodejs", "express"],
+  "author": "Sahil Satpute",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^3.0.3",
